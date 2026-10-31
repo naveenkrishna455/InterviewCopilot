@@ -1,0 +1,36 @@
+{
+  "name": "interview-copilot",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A Windows-first desktop app for real-time AI interview practice.",
+  "main": "build/electron/main.js",
+  "scripts": {
+    "dev": "concurrently -k \"vite --host 127.0.0.1\" \"dotnet run --project backend/InterviewCopilot.Api/InterviewCopilot.Api.csproj --urls http://127.0.0.1:5187\" \"wait-on http://127.0.0.1:5173 http-get://127.0.0.1:5187/api/health && npm run electron:dev\"",
+    "electron:dev": "npm run build:electron && electron .",
+    "build:electron": "tsc -p tsconfig.electron.json",
+    "typecheck": "tsc --noEmit -p tsconfig.app.json && tsc --noEmit -p tsconfig.electron.json",
+    "build": "npm run typecheck && npm run build:electron && vite build",
+    "test": "dotnet test backend/InterviewCopilot.Tests/InterviewCopilot.Tests.csproj",
+    "start:api": "dotnet run --project backend/InterviewCopilot.Api/InterviewCopilot.Api.csproj --urls http://127.0.0.1:5187"
+  },
+  "dependencies": {
+    "lucide-react": "^0.468.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.30",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.7",
+    "@vitejs/plugin-react": "^5.0.0",
+    "concurrently": "^9.2.0",
+    "electron": "^45.2.1",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.3",
+    "wait-on": "^8.0.4"
+  },
+  "allowScripts": {
+    "electron@45.2.1": true,
+    "esbuild@0.28.2": true
+  }
+}
